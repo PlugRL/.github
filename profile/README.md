@@ -62,3 +62,8 @@ claims of our own.
 
 Start at the [documentation](https://plugrl.github.io) - the quickstart trains
 FPO on HalfCheetah with no GPU and nothing to download.
+
+## Who
+
+PlugRL is built by [Chenhao Lu](https://github.com/CTP314) and
+[Zuo Gou](https://github.com/Gotham-Zolio).
