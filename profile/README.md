@@ -65,5 +65,6 @@ FPO on HalfCheetah with no GPU and nothing to download.
 
 ## Who
 
-PlugRL is built by [Chenhao Lu](https://github.com/CTP314) and
-[Zuo Gou](https://github.com/Gotham-Zolio).
+PlugRL is built by [Chenhao Lu](https://github.com/CTP314),
+[Zuo Gou](https://github.com/tactino) and
+[Zilin Kang](https://github.com/nothingbutbut).
