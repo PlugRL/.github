@@ -33,6 +33,20 @@ what the result does **not** support.
 | [E7](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e7-cross-machine) | What does the boundary cost once packets leave the machine? | **+0.52 ms** on a 184 KiB observation |
 | [E10](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e10-vla-forward-cost) | Is that cheap beside a VLA forward pass? | **Yes** - the split is 1.3-3.6% of a step |
 | [E11](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e11-vla-rl-libero) | Can a real VLA be trained through it, and does it help? | **Trained, not helped** - below |
+| [E12](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e12-cuda-free-rollout) | Does a rollout machine really need CUDA, as E1 concluded? | **No** - that was a packaging default. LIBERO's env client goes 7.8G to **3.4G**, no nvidia wheels |
+| [E13](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e13-gpu-free-rendering) | And without a GPU to render on? | **Yes, at 1.91x** - ten clients rendering on the CPU, 30 of 30 episodes successful |
+
+## Where a rollout can run
+
+The training server is 6.5G and wants a GPU. The environment side does not have
+to be either: **3.4G, no CUDA, no GPU driver**, rendering on the CPU at 1.91x
+the wall clock. That is a different class of machine - it fits where the trainer
+does not.
+
+E1 had measured this and concluded the opposite, because a default `pip install
+torch` brings CUDA along whether or not anything uses it. E12 reproduced E1's
+row exactly before changing one pin, so the two sets of numbers are comparable;
+E1's sentence was narrowed in place with a dated note rather than deleted.
 
 ## The headline result is negative
 
