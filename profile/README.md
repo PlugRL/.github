@@ -8,6 +8,7 @@ feedback return channel.
 %%{init: {"theme": "base", "flowchart": {"rankSpacing": 140}, "themeVariables": {"lineColor": "#7b8792", "textColor": "#1f2328", "edgeLabelBackground": "#ffffff"}}}%%
 flowchart LR
   subgraph S["plugrl-server &middot; holds the policy"]
+    direction LR
     P["policy"] --- A["algorithm"]
   end
   subgraph C["plugrl-env-client &middot; holds no policy"]
