@@ -5,7 +5,7 @@ two processes and joined by a written protocol: WebSocket and msgpack, with a
 feedback return channel.
 
 ```mermaid
-%%{init: {"theme": "base", "themeVariables": {"lineColor": "#7b8792", "textColor": "#1f2328", "edgeLabelBackground": "#ffffff"}}}%%
+%%{init: {"theme": "base", "flowchart": {"rankSpacing": 140}, "themeVariables": {"lineColor": "#7b8792", "textColor": "#1f2328", "edgeLabelBackground": "#ffffff"}}}%%
 flowchart LR
   subgraph S["plugrl-server &middot; holds the policy"]
     P["policy"] --- A["algorithm"]
@@ -15,7 +15,7 @@ flowchart LR
   end
   C -- "observation" --> S
   S -- "action" --> C
-  C -- "feedback: reward, termination" --> S
+  C == "feedback:<br/>reward, termination" ==> S
 
   classDef server fill:#ffffff,stroke:#4051b5,stroke-width:1.5px,color:#1a237e
   classDef client fill:#ffffff,stroke:#7b8792,stroke-width:1.5px,color:#37474f
@@ -25,7 +25,7 @@ flowchart LR
   style C fill:#eceff1,stroke:#7b8792,stroke-width:2px,color:#37474f
   linkStyle 0 stroke:#4051b5,stroke-width:1.5px
   linkStyle 1,2 stroke:#7b8792,stroke-width:1.5px
-  linkStyle 3 stroke:#2e7d32,stroke-width:3px,color:#1b5e20
+  linkStyle 3 stroke:#2e7d32,stroke-width:4px,color:#1b5e20
 ```
 
 The third arrow is the one that matters. Serving an inference model needs the
