@@ -32,6 +32,18 @@ The third arrow is the one that matters. Serving an inference model needs the
 first two; learning from what happened needs the third, and the protocol
 specifies it rather than leaving it to a convention.
 
+## What runs on it
+
+<a href="https://plugrl.github.io/#what-runs-on-it"><img src="https://plugrl.github.io/media/coverage-grid.jpg" width="640"
+   alt="Twelve cells, three policy-algorithm pairs by four tasks, each with a frame from its trained policy, a training curve and a status. fpo-policy with FPO learns HalfCheetah, Hopper and Walker2d; dppo-policy with DPPO learns HalfCheetah and is still rising on Hopper and Walker2d; fpo-policy with DPPO has not learned; all three run end to end on robomimic square."></a>
+
+Every combination of the two MLP policies and the two algorithms on four
+tasks. [On the project page](https://plugrl.github.io/#what-runs-on-it) each
+cell plays its clip and shows the two commands that trained it, and pi0.5 on
+LIBERO sits below. None of the servers that trained these has MuJoCo,
+robosuite or gymnasium installed; the env clients carry them, in three
+separate environments.
+
 ## What has been measured
 
 Every experiment directory carries its data and a `FINDINGS.md` that states
