@@ -4,30 +4,9 @@ Reinforcement learning training and the environments it learns from, split into
 two processes and joined by a written protocol: WebSocket and msgpack, with a
 feedback return channel.
 
-```mermaid
-%%{init: {"theme": "base", "flowchart": {"rankSpacing": 140}, "themeVariables": {"lineColor": "#7b8792", "textColor": "#1f2328", "edgeLabelBackground": "#ffffff"}}}%%
-flowchart LR
-  subgraph S["plugrl-server &middot; holds the policy"]
-    direction LR
-    P["policy"] --- A["algorithm"]
-  end
-  subgraph C["plugrl-env-client &middot; holds no policy"]
-    E["Gymnasium / MuJoCo / LIBERO"]
-  end
-  C -- "observation" --> S
-  S -- "action" --> C
-  C == "feedback:<br/>reward, termination" ==> S
+<img src="https://raw.githubusercontent.com/PlugRL/.github/main/profile/flowchart.svg" width="760"
+     alt="Two boxes. On the left, plugrl-env-client, which holds no policy and runs Gymnasium, MuJoCo or LIBERO. On the right, plugrl-server, which holds the policy and the algorithm. Observation goes from client to server, action from server to client, and feedback - reward and termination - from client to server, drawn thicker and green.">
 
-  classDef server fill:#ffffff,stroke:#4051b5,stroke-width:1.5px,color:#1a237e
-  classDef client fill:#ffffff,stroke:#7b8792,stroke-width:1.5px,color:#37474f
-  class P,A server
-  class E client
-  style S fill:#e8eaf6,stroke:#4051b5,stroke-width:2px,color:#1a237e
-  style C fill:#eceff1,stroke:#7b8792,stroke-width:2px,color:#37474f
-  linkStyle 0 stroke:#4051b5,stroke-width:1.5px
-  linkStyle 1,2 stroke:#7b8792,stroke-width:1.5px
-  linkStyle 3 stroke:#2e7d32,stroke-width:4px,color:#1b5e20
-```
 
 The third arrow is the one that matters. Serving an inference model needs the
 first two; learning from what happened needs the third, and the protocol
@@ -35,7 +14,7 @@ specifies it rather than leaving it to a convention.
 
 ## What runs on it
 
-<a href="https://plugrl.github.io/#what-runs-on-it"><img src="https://plugrl.github.io/media/coverage-grid.jpg" width="640"
+<a href="https://plugrl.github.io/#what-runs-on-it"><img src="https://plugrl.github.io/media/coverage-grid.jpg" width="100%"
    alt="Twelve cells, three policy-algorithm pairs by four tasks, each with a frame from its trained policy, a training curve and a status. fpo-policy with FPO learns HalfCheetah, Hopper and Walker2d; dppo-policy with DPPO learns HalfCheetah and is still rising on Hopper and Walker2d; fpo-policy with DPPO has not learned; all three run end to end on robomimic square."></a>
 
 Every combination of the two MLP policies and the two algorithms on four

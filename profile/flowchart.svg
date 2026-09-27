@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="210" viewBox="0 0 760 210" role="img" aria-labelledby="t d">
+  <title id="t">PlugRL: the env client and the training server</title>
+  <desc id="d">Two boxes. On the left, plugrl-env-client, which holds no policy and runs Gymnasium, MuJoCo or LIBERO. On the right, plugrl-server, which holds the policy and the algorithm. Observation goes from client to server, action from server to client, and feedback - reward and termination - from client to server; the feedback arrow is drawn thicker and green.</desc>
+  <defs>
+    <marker id="grey" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7b8792"/>
+    </marker>
+    <marker id="green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2e7d32"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; }
+    .title { font-size: 14px; }
+    .node { font-size: 14px; }
+    .label { font-size: 13px; }
+  </style>
+
+  <rect x="0" y="0" width="760" height="210" rx="10" fill="#ffffff"/>
+
+  <!-- the env client -->
+  <rect x="24" y="58" width="262" height="96" rx="6" fill="#eceff1" stroke="#7b8792" stroke-width="2"/>
+  <text x="155" y="82" text-anchor="middle" class="title" fill="#37474f">plugrl-env-client · holds no policy</text>
+  <rect x="44" y="98" width="222" height="36" rx="3" fill="#ffffff" stroke="#7b8792" stroke-width="1.5"/>
+  <text x="155" y="121" text-anchor="middle" class="node" fill="#37474f">Gymnasium / MuJoCo / LIBERO</text>
+
+  <!-- the training server -->
+  <rect x="496" y="34" width="240" height="144" rx="6" fill="#e8eaf6" stroke="#4051b5" stroke-width="2"/>
+  <text x="616" y="58" text-anchor="middle" class="title" fill="#1a237e">plugrl-server · holds the policy</text>
+  <rect x="566" y="72" width="100" height="34" rx="3" fill="#ffffff" stroke="#4051b5" stroke-width="1.5"/>
+  <text x="616" y="94" text-anchor="middle" class="node" fill="#1a237e">policy</text>
+  <line x1="616" y1="106" x2="616" y2="124" stroke="#4051b5" stroke-width="1.5"/>
+  <rect x="566" y="124" width="100" height="34" rx="3" fill="#ffffff" stroke="#4051b5" stroke-width="1.5"/>
+  <text x="616" y="146" text-anchor="middle" class="node" fill="#1a237e">algorithm</text>
+
+  <!-- observation: client to server -->
+  <line x1="288" y1="84" x2="492" y2="84" stroke="#7b8792" stroke-width="1.5" marker-end="url(#grey)"/>
+  <text x="390" y="77" text-anchor="middle" class="label" fill="#37474f">observation</text>
+
+  <!-- feedback: client to server, the one that matters -->
+  <line x1="288" y1="120" x2="490" y2="120" stroke="#2e7d32" stroke-width="4" marker-end="url(#green)"/>
+  <text x="388" y="107" text-anchor="middle" class="label" fill="#1b5e20" font-weight="600">feedback: reward, termination</text>
+
+  <!-- action: server to client -->
+  <line x1="492" y1="146" x2="288" y2="146" stroke="#7b8792" stroke-width="1.5" marker-end="url(#grey)"/>
+  <text x="390" y="165" text-anchor="middle" class="label" fill="#37474f">action</text>
+</svg>
