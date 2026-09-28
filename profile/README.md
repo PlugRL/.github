@@ -28,15 +28,18 @@ the env clients carry them, in two separate environments.
 
 The training server is 6.5G and wants a GPU. The environment side needs
 neither, and need not be Python: it fits on a different class of machine from
-the trainer. The boundary between them is cheap.
+the trainer. The boundary between them costs a fixed latency plus the
+observation's bytes over the link, small on a fast link and measurable on a
+slow one.
 
 | | Question | Answer |
 |---|---|---|
 | [E2](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e2-cross-language) | Does an env client have to be this codebase, or Python? | **No** - an 843-line C++ client with no third-party libraries drove a real training server |
 | [E12](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e12-cuda-free-rollout) | Does a rollout machine need CUDA? | **No** - LIBERO's env client goes from 7.8G to **3.4G**, with no nvidia wheels |
 | [E13](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e13-gpu-free-rendering) | Or a GPU to render on? | **No, at 1.91x** the wall clock - ten clients rendering on the CPU, 30 of 30 episodes successful |
-| [E7](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e7-cross-machine) | What does the boundary cost once packets leave the machine? | **+0.52 ms** on a 184 KiB observation, measured from a VM to its host |
-| [E10](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e10-vla-forward-cost) | Is that cheap beside a VLA forward pass? | **Yes** - the split is 1.3-3.6% of a step |
+| [E43](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e43-cross-machine-training) | Does training still work with the env clients on another physical machine? | **Yes** - the quickstart pair learns with its env clients on a Windows laptop over campus Wi-Fi |
+| [E43](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e43-cross-machine-training) | What does crossing cost? | About **3 ms plus twice the observation's bytes over the link** per exchange: 21 ms for 184 KiB at 18 MB/s |
+| [E10](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e10-vla-forward-cost) | Is that cheap beside a VLA forward pass? | **On a fast link.** Over that Wi-Fi a 184 KiB observation is 21% of pi0.5's 100 ms forward, not E10's 1.3-3.6% |
 
 Every experiment directory carries its data and a `FINDINGS.md` that states
 what the result does **not** support.
