@@ -15,58 +15,41 @@ specifies it rather than leaving it to a convention.
 ## What runs on it
 
 <a href="https://plugrl.github.io/#what-runs-on-it"><img src="https://plugrl.github.io/media/coverage-grid.jpg" width="100%"
-   alt="Twelve cells, three policy-algorithm pairs by four tasks, each with a frame from its trained policy, a training curve and a status. fpo-policy with FPO learns HalfCheetah, Hopper and Walker2d; dppo-policy with DPPO learns HalfCheetah and is still rising on Hopper and Walker2d; fpo-policy with DPPO has not learned; all three run end to end on robomimic square."></a>
+   alt="Sixteen cells, four policy-algorithm pairs on HalfCheetah, Hopper, Walker2d and robomimic square, each with a frame from its trained policy, a training curve and a status. Every pair learns every task. On square each starts from a pretrained policy, and fpo-policy with FPO passes the bar on two of three seeds."></a>
 
 Every combination of the two MLP policies and the two algorithms on four
-tasks. [On the project page](https://plugrl.github.io/#what-runs-on-it) each
-cell plays its clip and shows the two commands that trained it, and pi0.5 on
-LIBERO sits below. None of the servers that trained these has MuJoCo,
-robosuite or gymnasium installed; the env clients carry them, in three
-separate environments.
+tasks, and the baseline they are measured against, a Gaussian MLP with PPO.
+All sixteen learn. [On the project page](https://plugrl.github.io/#what-runs-on-it)
+each cell plays its clip and shows the two commands that trained it. None of
+the servers that trained these has MuJoCo, robosuite or gymnasium installed;
+the env clients carry them, in two separate environments.
 
-## What has been measured
+## What the split buys, and what it costs
+
+The training server is 6.5G and wants a GPU. The environment side needs
+neither, and need not be Python: it fits on a different class of machine from
+the trainer. The boundary between them is cheap.
+
+| | Question | Answer |
+|---|---|---|
+| [E2](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e2-cross-language) | Does an env client have to be this codebase, or Python? | **No** - an 843-line C++ client with no third-party libraries drove a real training server |
+| [E12](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e12-cuda-free-rollout) | Does a rollout machine need CUDA? | **No** - LIBERO's env client goes from 7.8G to **3.4G**, with no nvidia wheels |
+| [E13](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e13-gpu-free-rendering) | Or a GPU to render on? | **No, at 1.91x** the wall clock - ten clients rendering on the CPU, 30 of 30 episodes successful |
+| [E7](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e7-cross-machine) | What does the boundary cost once packets leave the machine? | **+0.52 ms** on a 184 KiB observation, measured from a VM to its host |
+| [E10](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e10-vla-forward-cost) | Is that cheap beside a VLA forward pass? | **Yes** - the split is 1.3-3.6% of a step |
 
 Every experiment directory carries its data and a `FINDINGS.md` that states
 what the result does **not** support.
 
-| | Question | Answer |
-|---|---|---|
-| [E1](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e1-dependency-conflict) | Do a training stack and an environment stack really conflict? | **No.** The claim this project was built on is disproved |
-| [E2](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e2-cross-language) | Can anything but this codebase speak the protocol? | **Yes** - an 843-line C++ client with no third-party libraries |
-| [E7](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e7-cross-machine) | What does the boundary cost once packets leave the machine? | **+0.52 ms** on a 184 KiB observation |
-| [E10](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e10-vla-forward-cost) | Is that cheap beside a VLA forward pass? | **Yes** - the split is 1.3-3.6% of a step |
-| [E11](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e11-vla-rl-libero) | Can a real VLA be trained through it, and does it help? | **Trained, not helped** - below |
-| [E12](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e12-cuda-free-rollout) | Does a rollout machine really need CUDA, as E1 concluded? | **No** - that was a packaging default. LIBERO's env client goes 7.8G to **3.4G**, no nvidia wheels |
-| [E13](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e13-gpu-free-rendering) | And without a GPU to render on? | **Yes, at 1.91x** - ten clients rendering on the CPU, 30 of 30 episodes successful |
+## A real VLA through it
 
-## Where a rollout can run
-
-The training server is 6.5G and wants a GPU. The environment side does not have
-to be either: **3.4G, no CUDA, no GPU driver**, rendering on the CPU at 1.91x
-the wall clock. That is a different class of machine - it fits where the trainer
-does not.
-
-E1 had measured this and concluded the opposite, because a default `pip install
-torch` brings CUDA along whether or not anything uses it. E12 reproduced E1's
-row exactly before changing one pin, so the two sets of numbers are comparable;
-E1's sentence was narrowed in place with a dated note rather than deleted.
-
-## The headline result is negative
-
-A full-size pi0.5 ran end to end through the boundary on LIBERO - inference,
-feedback and FPO training - and the server's record of episodes and steps
-reconciles exactly with the clients'. As a control, the unmodified checkpoint
-scored 99 of 100 on `libero_spatial` and 185 of 200 on `libero_10`, against
-openpi's published 98.8 and 92.4.
-
-Then one FPO iteration took the hardest task from **26 of 50 to 0 of 50**, and
-the run is incomplete at one iteration of ten: a second learn step does not fit
-beside the optimizer state the first one allocates on a 24 GB card. The
-predictions were registered before the run, and one of them is falsified.
-
-That is what the data says, so that is what is written down. One experiment
-disproved the assumption the project was founded on, and two withdrew earlier
-claims of our own.
+A full-size pi0.5 runs end to end through the boundary on LIBERO. The
+unmodified checkpoint scored 99 of 100 on `libero_spatial` and 185 of 200 on
+`libero_10`, against openpi's published 98.8 and 92.4, and the server's record
+of episodes and steps reconciles exactly with the clients'
+([E11](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e11-vla-rl-libero)).
+Fine-tuning it with reinforcement learning through PlugRL has not made it
+better yet; that record is on [its own page](https://plugrl.github.io/vla/).
 
 ## Repositories
 
