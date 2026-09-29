@@ -34,7 +34,7 @@ slow one.
 
 | | Question | Answer |
 |---|---|---|
-| [E2](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e2-cross-language) | Does an env client have to be this codebase, or Python? | **No** - an 843-line C++ client with no third-party libraries drove a real training server |
+| [E44](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e44-cpp-pendulum) | Does an env client have to be this codebase, or Python? | **No** - a C++ program with no third-party libraries trains a policy on its own Pendulum as well as the Python env client does ([E2](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e2-cross-language) first spoke the protocol from C++) |
 | [E12](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e12-cuda-free-rollout) | Does a rollout machine need CUDA? | **No** - LIBERO's env client goes from 7.8G to **3.4G**, with no nvidia wheels |
 | [E13](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e13-gpu-free-rendering) | Or a GPU to render on? | **No, at 1.91x** the wall clock - ten clients rendering on the CPU, 30 of 30 episodes successful |
 | [E43](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e43-cross-machine-training) | Does training still work with the env clients on another physical machine? | **Yes** - the quickstart pair learns with its env clients on a Windows laptop over campus Wi-Fi |
