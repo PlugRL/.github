@@ -38,8 +38,10 @@ slow one.
 | [E12](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e12-cuda-free-rollout) | Does a rollout machine need CUDA? | **No** - LIBERO's env client goes from 7.8G to **3.4G**, with no nvidia wheels |
 | [E13](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e13-gpu-free-rendering) | Or a GPU to render on? | **No, at 1.91x** the wall clock - ten clients rendering on the CPU, 30 of 30 episodes successful |
 | [E43](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e43-cross-machine-training) | Does training still work with the env clients on another physical machine? | **Yes** - the quickstart pair learns with its env clients on a Windows laptop over campus Wi-Fi |
-| [E43](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e43-cross-machine-training) | What does crossing cost? | About **3 ms plus twice the observation's bytes over the link** per exchange: 21 ms for 184 KiB at 18 MB/s |
-| [E10](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e10-vla-forward-cost) | Is that cheap beside a VLA forward pass? | **On a fast link.** Over that Wi-Fi a 184 KiB observation is 21% of pi0.5's 100 ms forward, not E10's 1.3-3.6% |
+| [E46](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e46-reuse-feedback-obs) | What does crossing cost? | About **3 ms plus the observation's bytes over the link** per exchange: 11.6 ms for 184 KiB at 23.7 MB/s, each observation crossing once with the negotiated `reuse-feedback-obs` |
+| [E10](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e10-vla-forward-cost) | Is that cheap beside a VLA forward pass? | **On a fast link.** On that link a 184 KiB observation is 12% of pi0.5's 100 ms forward, not E10's 1.3-3.6% |
+| [E49](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e49-multi-trainer) | Do other trainers train through it? | **Yes** - RLinf, Stable-Baselines3 and CleanRL train PlugRL env clients, 3 of 3 seeds in every pairing |
+| [E50](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e50-boundary-transparency) | Does training see the boundary? | **No** - SB3 ends on byte-identical weights with its environments behind the protocol and in its own process, also on Atari frames and with 25 ms each way |
 
 Every experiment directory carries its data and a `FINDINGS.md` that states
 what the result does **not** support.
@@ -60,7 +62,7 @@ better yet; that record is on [its own page](https://plugrl.github.io/vla/).
 |---|---|
 | [plugrl-server](https://github.com/PlugRL/plugrl-server) | Training side: policy, algorithm, checkpoints, and the experiments |
 | [plugrl-env-client](https://github.com/PlugRL/plugrl-env-client) | Environment side: steps envs, asks for actions, returns feedback |
-| [plugrl-protocol](https://github.com/PlugRL/plugrl-protocol) | The specification, its checkable clauses as tests, and two reference env clients |
+| [plugrl-protocol](https://github.com/PlugRL/plugrl-protocol) | The specification, conformance checkers for clients and servers, two reference env clients and a reference server |
 | [plugrl.github.io](https://github.com/PlugRL/plugrl.github.io) | Documentation, in English and 中文 |
 
 Start at the [documentation](https://plugrl.github.io) - the quickstart trains
