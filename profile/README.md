@@ -71,6 +71,7 @@ better yet; that record is on [its own page](https://plugrl.github.io/vla/).
 | [plugrl-env-client](https://github.com/PlugRL/plugrl-env-client) | Environment side: steps envs, asks for actions, returns feedback |
 | [plugrl-protocol](https://github.com/PlugRL/plugrl-protocol) | The specification, conformance checkers for clients and servers, two reference env clients and a reference server |
 | [plugrl-bridges](https://github.com/PlugRL/plugrl-bridges) | Adapters through which RLinf, Stable-Baselines3 and CleanRL train PlugRL env clients |
+| [step-ledger](https://github.com/PlugRL/step-ledger) | A step ledger on each side of the environment-trainer boundary, for Gymnasium and Stable-Baselines3: names the first value that changed on its way across |
 | [plugrl.github.io](https://github.com/PlugRL/plugrl.github.io) | Documentation, in English and 中文 |
 
 Start at the [documentation](https://plugrl.github.io) - the quickstart trains
