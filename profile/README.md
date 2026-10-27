@@ -42,6 +42,13 @@ slow one.
 | [E10](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e10-vla-forward-cost) | Is that cheap beside a VLA forward pass? | **On a fast link.** On that link a 184 KiB observation is 12% of pi0.5's 100 ms forward, not E10's 1.3-3.6% |
 | [E49](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e49-multi-trainer) | Do other trainers train through it? | **Yes** - RLinf, Stable-Baselines3 and CleanRL train PlugRL env clients, 3 of 3 seeds in every pairing |
 | [E50](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e50-boundary-transparency) | Does training see the boundary? | **No** - SB3 ends on byte-identical weights with its environments behind the protocol and in its own process, also on Atari frames and with 25 ms each way |
+| [E54](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e54-boundary-faults) | Would a fault at the boundary show? | **Not in the learning curve** - unless every value crossing is wrong, a fault passes a learning-curve threshold in at least nine runs of ten. A step ledger kept on both sides caught and located every such fault wherever it was kept ([E55](https://github.com/PlugRL/plugrl-server/tree/main/experiments/e55-step-ledger)), for a median 3% of training time on Pendulum |
+
+The boundary checks are a paper, *Detecting Silent Faults at the
+Environment-Trainer Boundary in Reinforcement Learning*, accepted to the CoRL
+2026 Workshop on Everything Beneath the Policy
+([PDF](https://plugrl.github.io/assets/silent-faults-webp2026.pdf),
+[summary and video](https://plugrl.github.io/#when-the-boundary-is-wrong-nothing-says-so)).
 
 Every experiment directory carries its data and a `FINDINGS.md` that states
 what the result does **not** support.
@@ -63,6 +70,7 @@ better yet; that record is on [its own page](https://plugrl.github.io/vla/).
 | [plugrl-server](https://github.com/PlugRL/plugrl-server) | Training side: policy, algorithm, checkpoints, and the experiments |
 | [plugrl-env-client](https://github.com/PlugRL/plugrl-env-client) | Environment side: steps envs, asks for actions, returns feedback |
 | [plugrl-protocol](https://github.com/PlugRL/plugrl-protocol) | The specification, conformance checkers for clients and servers, two reference env clients and a reference server |
+| [plugrl-bridges](https://github.com/PlugRL/plugrl-bridges) | Adapters through which RLinf, Stable-Baselines3 and CleanRL train PlugRL env clients |
 | [plugrl.github.io](https://github.com/PlugRL/plugrl.github.io) | Documentation, in English and 中文 |
 
 Start at the [documentation](https://plugrl.github.io) - the quickstart trains
