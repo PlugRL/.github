@@ -47,7 +47,7 @@ slow one.
 The boundary checks are a paper, *Detecting Silent Faults at the
 Environment-Trainer Boundary in Reinforcement Learning*, accepted to the CoRL
 2026 Workshop on Everything Beneath the Policy
-([PDF](https://plugrl.github.io/assets/silent-faults-webp2026.pdf),
+([arXiv:2611.08144](https://arxiv.org/abs/2611.08144),
 [summary and video](https://plugrl.github.io/#when-the-boundary-is-wrong-nothing-says-so)).
 
 Every experiment directory carries its data and a `FINDINGS.md` that states
